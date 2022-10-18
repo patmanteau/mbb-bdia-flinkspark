@@ -1,0 +1,55 @@
+---
+title: "Flink vs. Spark"
+subtitle: ""
+format:
+  revealjs:
+    slide-number: true
+    theme: league
+---
+
+## {auto-animate=true}
+
+Spark <span class="fragment" fragment-index="1">Structured</span> Streaming 
+
+## {auto-animate=true}
+
+Spark
+
+(Structured)
+
+Streaming 
+
+## Spark -- Facts
+
+Abstraktion
+- inkrementelle Verarbeitung
+- Checkpointing
+- Watermarks
+
+## Spark
+
+::::: {.columns}
+
+::::: {.column width="50%"}
+
+### ++
+
+Batch-API = Streaming-API (DataFrames und Datasets)
+
+Batch-Engine ≅ Streaming-Engine
+
+
+:::::
+
+::::: {.column width="50%"}
+
+### --
+
+
+
+:::::
+
+:::::
+## Flink -- Facts
+
+## Flink -- Stärken und Schwächen
