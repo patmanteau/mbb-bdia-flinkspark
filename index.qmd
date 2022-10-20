@@ -54,6 +54,7 @@ Analyse _potenziell unbeschränkter_ Datenmengen, die _inkrementell_ eintreffen
 ## Spark Streaming & Flink
 
 :::{.nonincremental}
+- Java/Scala & Python
 - schreiben keine Zwischenergebnisse auf Platte
 - gerichteter azyklischer Graph (DAG) aus Operatoren
 ```{mermaid}
@@ -66,10 +67,10 @@ flowchart LR
 ## Spark Streaming
 
 - Batchframework, das Streamverarbeitung asymptotisch annähert
-- Ausfalltoleranz durch Microbatching
+- Microbatching
 ![](assets/streaming-flow.png){width="60%"}
 - Jeder Microbatch kann wie jeder andere Spark-Job nach Ausfall neu gestartet werden
-- Exactly-once-Charakteristik
+- Exactly-once-Semantik
 - Kompromiss: Overhead oder Latenz
 
 
@@ -82,10 +83,9 @@ will ich evtl. nicht unbedingt auf Spark warten müssen)
 
 ## Flink
 
-- Streamframework, das als Batchframework crossdressen kann
-- Fehlertoleranz via Checkpointing
-- Regelmäßige Barrieren im Stream, ab denen nach Ausfall wieder aufgesetzt werden kann
+- Streamframework, das sich als Batchframework verkleiden kann
+- Fehlertoleranz via Checkpointing: Regelmäßige Barrieren im Stream, ab denen nach Ausfall wieder aufgesetzt werden kann
 - Die Quelle muss das unterstützen (bspw. Kafka)
-- Exactly-once
+- Exactly-once-Semantik
 
 
