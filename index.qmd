@@ -58,7 +58,6 @@ Analyse _beschränkter_ Datenmengen mit bekannter, endlicher Größe
 ### Stream Processing
 
 Analyse _potenziell unbeschränkter_ Datenmengen, die _inkrementell_ eintreffen
-
 → Spark Streaming & Flink
 
 :::
@@ -70,6 +69,25 @@ Analyse _potenziell unbeschränkter_ Datenmengen, die _inkrementell_ eintreffen
 - Manufacturing systems need to monitor the status of machines in a factory, and quickly identify the problem if there is a malfunction.
 - Military and intelligence systems need to track the activities of a potential aggressor, and raise the alarm if there are signs of an attack.
 :::
+
+## Stream Processing
+
+- Auch Dataflow Computing oder reaktive Programmierung
+- Abstraktion: Operationen als Knoten und Datenabhängigkeiten als Kanten eines Graphen
+- `f(x, y, z) = x * y + z`
+- sd
+- [@Schwarzkopf_RemarkableUtility_2020]
+
+---
+
+```{mermaid}
+graph LR;
+    id1[x] --> id2[*];
+    id3[y] --> id2; id2 --> id4(+)
+    id5[z] --> id4
+    id4 --> id6[out]
+```
+
 
 
 ## Spark Streaming
