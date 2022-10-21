@@ -1,5 +1,5 @@
 ---
-title: "Flink & Spark Streaming"
+title: "Spark Streaming & Flink"
 bibliography: bib.yaml
 csl: iso690-author-date-de.csl
 subtitle: ""
@@ -12,10 +12,39 @@ format:
     incremental: true
 ---
 
-##
+## Spark (Streaming) & Flink
+
+::: {.r-stack}
+![](assets/streaming-arch.png){}
+
+![](assets/flink-header-logo.png){.fragment}
+
+:::
+
+:::: {.notes}
+Frameworks zur verteilten Verarbeitung großer Mengen von Daten
+::::
+
+## Spark (Streaming) & Flink
+
+:::{.nonincremental}
+
+- freie Software, Apache Software Foundation
+- Java/Scala & Python
+- Im Gegensatz zu Hadoop: keine Zwischenergebnisse auf Platte
+- Modell: Fluss von Daten durch mehrere Verarbeitungsstufen 
+```{mermaid}
+flowchart LR
+    id10[Quelle] --> id1(flatMap) --> id6(filter) --> id2(map) --> id3(reduceByKey) --> id11[Senke]
+    id1 --> id4(filter) --> id99(flatMap) --> id5(map) --> id3
+```
+
+:::
+
+## Abgrenzung
 
 ::::{.columns}
-:::{.column}
+:::{.column .fragment}
 
 ### Batch Processing
 
@@ -42,27 +71,6 @@ Analyse _potenziell unbeschränkter_ Datenmengen, die _inkrementell_ eintreffen
 - Military and intelligence systems need to track the activities of a potential aggressor, and raise the alarm if there are signs of an attack.
 :::
 
-## Spark Streaming & Flink
-
-::: {.r-stack}
-![](assets/streaming-arch.png){}
-
-![](assets/flink-header-logo.png){.fragment}
-
-:::
-
-## Spark Streaming & Flink
-
-:::{.nonincremental}
-- Java/Scala & Python
-- schreiben keine Zwischenergebnisse auf Platte
-- gerichteter azyklischer Graph (DAG) aus Operatoren
-```{mermaid}
-flowchart LR
-    id10[Quelle] --> id1(flatMap) --> id6(filter) --> id2(map) --> id3(reduceByKey) --> id11[Senke]
-    id1 --> id4(filter) --> id99(flatMap) --> id5(map) --> id3
-```
-:::
 
 ## Spark Streaming
 
@@ -87,5 +95,4 @@ will ich evtl. nicht unbedingt auf Spark warten müssen)
 - Fehlertoleranz via Checkpointing: Regelmäßige Barrieren im Stream, ab denen nach Ausfall wieder aufgesetzt werden kann
 - Die Quelle muss das unterstützen (bspw. Kafka)
 - Exactly-once-Semantik
-
 
