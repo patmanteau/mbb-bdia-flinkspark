@@ -1,15 +1,19 @@
 ---
 title: "Spark Streaming & Flink"
+date: 29. Oktober 2022
+author: Patrick Haas
 bibliography: bib.yaml
 csl: iso690-author-date-de.csl
 subtitle: ""
 lang: de-DE
+footer: <https://git.radaubox.de/patmanteau/flink-vs-spark>
 format:
   revealjs:
-    slide-number: true
-    theme: dark
     center: true
+    slide-number: true
     incremental: true
+    progress: true
+    navigation-mode: linear
 ---
 
 ## Spark (Streaming) & Flink
@@ -27,19 +31,26 @@ Frameworks zur verteilten Verarbeitung großer Mengen von Daten
 
 ## Spark (Streaming) & Flink
 
-:::{.nonincremental}
+::::{.columns}
+:::{.column}
 
 - freie Software, Apache Software Foundation
-- Java/Scala & Python
-- Im Gegensatz zu Hadoop: keine Zwischenergebnisse auf Platte
-- Modell: Fluss von Daten durch mehrere Verarbeitungsstufen 
+- API: JVM/Python
+- Anders als Hadoop: keine Zwischenergebnisse auf Platte
+- Abstraktion: Fluss von Daten durch mehrere Verarbeitungsstufen
+
+:::
+
+:::{.column .fragment}
+
 ```{mermaid}
-flowchart LR
-    id10[Quelle] --> id1(flatMap) --> id6(filter) --> id2(map) --> id3(reduceByKey) --> id11[Senke]
+flowchart TD
+    id1(flatMap) --> id6(filter) --> id2(map) --> id3(reduceByKey)
     id1 --> id4(filter) --> id99(flatMap) --> id5(map) --> id3
 ```
 
 :::
+::::
 
 ## Abgrenzung
 
@@ -58,6 +69,7 @@ Analyse _beschränkter_ Datenmengen mit bekannter, endlicher Größe
 ### Stream Processing
 
 Analyse _potenziell unbeschränkter_ Datenmengen, die _inkrementell_ eintreffen
+
 → Spark Streaming & Flink
 
 :::
@@ -75,12 +87,9 @@ Analyse _potenziell unbeschränkter_ Datenmengen, die _inkrementell_ eintreffen
 - Auch Dataflow Computing oder reaktive Programmierung
 - Abstraktion: Operationen als Knoten und Datenabhängigkeiten als Kanten eines Graphen
 - `f(x, y, z) = x * y + z`
-- sd
-- [@Schwarzkopf_RemarkableUtility_2020]
-
----
 
 ```{mermaid}
+%%| mermaid-theme: dark
 graph LR;
     id1[x] --> id2[*];
     id3[y] --> id2; id2 --> id4(+)
@@ -88,6 +97,134 @@ graph LR;
     id4 --> id6[out]
 ```
 
+::: {.aside}
+mehr Details: @Schwarzkopf_RemarkableUtility_2020
+:::
+
+## Stream Processing
+
+```{.python code-line-numbers="1-2|3-4|5-6|7-8"}
+# read data from text file
+json_file = sc.textFile(r"ytmetadata.noid.json")
+# split each line into words
+words = json_file.flatMap(lambda line: line.split(" "))
+# count the occurrence of each word
+counts = words.map(lambda word: (word, 1)).reduceByKey(lambda a, b: a + b)
+# save the counts to output
+counts.saveAsTextFile("wordcount")
+```
+
+```{mermaid}
+%%| darkMode: true
+graph LR;
+    id1[textFile] --> id2("flatMap(split)") --> id4("map(tuple)") --> id5("reduceByKey(+)") --> id6[saveAsTextFile];
+```
+
+
+## Stream Processing
+
+```{.python code-line-numbers="1-2|3-4|5-6|7-8"}
+# read data from text file
+json_file = sc.textFile(r"ytmetadata.noid.json")
+# split each line into words
+words = json_file.flatMap(lambda line: line.split(" "))
+# count the occurrence of each word
+counts = words.map(lambda word: (word, 1)).reduceByKey(lambda a, b: a + b)
+# save the counts to output
+counts.saveAsTextFile("wordcount")
+```
+
+```{mermaid}
+%%| darkMode: true
+graph LR;
+    id1[textFile] --> id2("flatMap(split)") --> id4("map(tuple)") --> id5("reduceByKey(+)") --> id6[saveAsTextFile];
+```
+
+## Stream Processing II
+
+```python
+# read data from text file
+json_file = sc.textFile(r"ytmetadata.noid.json")
+# split each line into words
+words = json_file.flatMap(lambda line: line.split(" "))
+# count the occurrence of each word
+counts = words.map(lambda word: (word, 1)).reduceByKey(lambda a, b: a + b)
+# save the counts to output
+counts.saveAsTextFile("wordcount")
+```
+
+```{dot}
+
+digraph G {
+  margin=0.5; // either one (all) or two (hor,vert) numbers, in inches
+  bgcolor="#ffffff00" // rgba in hex format
+  rankdir=LR // other options would be RL, TB, BT
+  compound=true // this enables logical arrow heads
+  fontname="monoidregular" // should be a valid webfont
+  node [
+    // General rules for _all_ nodes
+    label="" // Default label empty
+    fontname=monoidregular // Quotes are not mandatory 
+    labelloc=c // vert. centred labels
+    margin="0.3,0.15" // side and top margin for text in nodes
+    splines=true // allows curved arrows
+    shape=rect
+    style=rounded
+    ];
+  edge [
+    minlen=2
+  ];
+  
+  air[ // if you define nodes ahead of time you can add properties
+      label="Airflow"
+      group=g  
+      // nodes in a group are aligned (direction depending on rank
+    ]
+  
+  subgraph cluster_storage { 
+    // if the id starts with cluster, it will have a box and label
+    margin=19 // subgraph inherits margin from graph, bad
+    style="filled,rounded,dotted"; // example of styles
+    fillcolor="#00000012" // transparency stacks
+    subgraph cluster_redshift {
+     // Layout for nodes with images does not match when running
+     // using the dot CLI, so wrap in a cluster
+     label="Redshift"
+     red[
+      label=""
+      // Images need to be made available to the graphviz object
+      // I have provided a few
+      image="i/aws/Amazon-Redshift.png"
+      style=""
+     ]
+    }
+    dat[label="Databricks"
+      shape="cylinder"
+      // https://graphviz.org/doc/info/shapes.html#polygon
+      style=filled,
+      fillcolor="#00ff0050"
+      group=g
+    ]
+  }
+  subgraph cluster_S3 {
+    margin="" label=S3 style="filled,rounded,dotted" 
+    fillcolor="#00000012"
+    S3[style="" image="i/aws/Amazon-Simple-Storage-Service.png"]
+  } 
+  // could be a oneliner
+  mail[
+    image="i/fa/solid/envelope.png"
+    style=""
+    shape=none
+  ]
+  air -> mail
+  air -> red [lhead=cluster_redshift] 
+  // logical head of the arrow is outside the cluster
+  air -> dat [lhead=cluster_storage]
+  dat -> S3 [lhead=cluster_S3]
+}
+
+```
 
 
 ## Spark Streaming
@@ -113,4 +250,6 @@ will ich evtl. nicht unbedingt auf Spark warten müssen)
 - Fehlertoleranz via Checkpointing: Regelmäßige Barrieren im Stream, ab denen nach Ausfall wieder aufgesetzt werden kann
 - Die Quelle muss das unterstützen (bspw. Kafka)
 - Exactly-once-Semantik
+
+## Literatur
 
