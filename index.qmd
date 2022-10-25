@@ -1,6 +1,7 @@
 ---
 title: "Spark Streaming & Flink"
-date: 29. Oktober 2022
+date: 2022-10-29
+date-format: iso
 author: Patrick Haas
 bibliography: bib.yaml
 csl: iso690-author-date-de.csl
@@ -18,12 +19,15 @@ format:
 
 ## Spark (Streaming) & Flink
 
-::: {.r-stack}
-![](assets/streaming-arch.png){}
+::: {.r-stack fig-align="center"}
+![](assets/streaming-arch.png){width="50%"}
 
-![](assets/flink-header-logo.png){.fragment}
-
+![](assets/flink-header-logo.png){.fragment width="50%"}
 :::
+
+- Datenintegration: Daten in der richtigen Form an die richtigen Orte bringen
+- lesen/transformieren/joinen/filtern/aggregieren/Modelle trainieren/evaluieren/schreiben
+- Ausgabe sind _abgeleitete_ Datensätze: Suchindizes, Empfehlungen, aggregierte Metriken, materialisierte Views uvvm.
 
 :::: {.notes}
 Frameworks zur verteilten Verarbeitung großer Mengen von Daten
@@ -52,6 +56,12 @@ flowchart TD
 :::
 ::::
 
+## Warum Spark & Flink?
+
+- Datenintegration: Daten in der richtigen Form an die richtigen Stellen bringen
+- lesen/transformieren/joinen/filtern/aggregieren/Modelle trainieren/evaluieren/schreiben
+- Ausgabe sind _abgeleitete_ Datensätze: Suchindizes, Empfehlungen, aggregierte Metriken, materialisierte Views uvvm.
+
 ## Abgrenzung
 
 ::::{.columns}
@@ -59,9 +69,9 @@ flowchart TD
 
 ### Batch Processing
 
-Analyse _beschränkter_ Datenmengen mit bekannter, endlicher Größe
+Analyse _beschränkter_ Datenmengen von _bekannter, endlicher_ Größe
 
-→ Spark
+Neue abgeleitete Ansichten können große Mengen historischer Daten erneut verarbeiten
 
 :::
 :::{.column .fragment}
@@ -70,12 +80,13 @@ Analyse _beschränkter_ Datenmengen mit bekannter, endlicher Größe
 
 Analyse _potenziell unbeschränkter_ Datenmengen, die _inkrementell_ eintreffen
 
-→ Spark Streaming & Flink
+Abgeleitete Ansichten reagieren mit geringer Verzögerung auf Veränderungen im Eingang
 
 :::
 ::::
 
 ::: {.notes}
+@Kleppmann_DesigningDataIntensive_2017, Kap. 10, 11, 12
 - Fraud detection systems need to determine if the usage patterns of a credit card have unexpectedly changed, and block the card if it is likely to have been stolen.
 - Trading systems need to examine price changes in a financial market and execute trades according to specified rules.
 - Manufacturing systems need to monitor the status of machines in a factory, and quickly identify the problem if there is a malfunction.
@@ -84,8 +95,8 @@ Analyse _potenziell unbeschränkter_ Datenmengen, die _inkrementell_ eintreffen
 
 ## Stream Processing
 
-- Auch Dataflow Computing oder reaktive Programmierung
 - Abstraktion: Operationen als Knoten und Datenabhängigkeiten als Kanten eines Graphen
+- Dataflow Computing oder reaktive Programmierung
 - `f(x, y, z) = x * y + z`
 
 ```{mermaid}
