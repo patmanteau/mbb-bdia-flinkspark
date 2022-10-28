@@ -1,0 +1,29 @@
+/*-- scss:defaults --*/
+
+@import url('https://fonts.googleapis.com/css2?family=Ubuntu+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Source+Sans+3:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Comic+Neue:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+// fonts
+/* $font-family-sans-serif: "Alegreya Sans", sans-serif !default; */
+/* $font-family-sans-serif: "Source Sans Pro", sans-serif !default; */
+/* $font-family-sans-serif: "Archivo", sans-serif !default; */
+/* $font-family-sans-serif: "Archivo Narrow", sans-serif !default; */
+/* $font-family-sans-serif: "Lato", sans-serif !default; */
+/* $font-family-sans-serif: "Roboto Flex", sans-serif !default; */
+/* $font-family-sans-serif: "Roboto", sans-serif !default; */
+/* $font-family-sans-serif: "Archivo", sans-serif !default; */
+/* $font-family-sans-serif: "Raleway", sans-serif !default; */
+/* $font-family-sans-serif: "Open Sans", sans-serif !default; */
+$font-family-sans-serif: "Source Sans 3", sans-serif !default;
+/* $font-family-sans-serif: "Comic Neue", sans-serif !default; */
+
+$font-family-monospace: "Ubuntu Mono", monospace !default;
+// headings
+/* $presentation-heading-font: "Comic Neue", sans-serif !default; */
+
+/*-- scss:rules --*/
+.textcenter {
+  text-align: center;
+}
+
+

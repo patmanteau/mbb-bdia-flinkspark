@@ -9,8 +9,6 @@
 <link href="index_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
   <meta name="generator" content="quarto-1.2.242">
 
-  <meta name="author" content="Patrick Haas">
-  <meta name="dcterms.date" content="2022-10-29">
   <title>Spark Streaming &amp; Flink</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -93,25 +91,6 @@
     code span.va { color: #111111; } /* Variable */
     code span.vs { color: #20794d; } /* VerbatimString */
     code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
-    div.csl-bib-body { }
-    div.csl-entry {
-      clear: both;
-    }
-    .hanging div.csl-entry {
-      margin-left:2em;
-      text-indent:-2em;
-    }
-    div.csl-left-margin {
-      min-width:2em;
-      float:left;
-    }
-    div.csl-right-inline {
-      margin-left:2em;
-      padding-left:1em;
-    }
-    div.csl-indent {
-      margin-left: 2em;
-    }
   </style>
   <link rel="stylesheet" href="index_files/libs/revealjs/dist/theme/quarto.css" id="theme">
   <link href="index_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
@@ -414,28 +393,26 @@
   <h1 class="title">Spark Streaming &amp; Flink</h1>
 
 <div class="quarto-title-authors">
-<div class="quarto-title-author">
-<div class="quarto-title-author-name">
-Patrick Haas 
-</div>
-</div>
 </div>
 
-  <p class="date">2022-10-29</p>
 </section>
-<section id="spark-streaming-flink" class="slide level2 center">
-<h2>Spark (Streaming) &amp; Flink</h2>
-<div class="r-stack" data-fig-align="center">
-<p><img data-src="assets/streaming-arch.png" style="width:50.0%"></p>
-<p><img data-src="assets/flink-header-logo.png" class="fragment" style="width:50.0%"></p>
+<section id="section" class="slide level2">
+<h2></h2>
+<div class="columns">
+<div class="column" style="width:50%;">
+<p>Frameworks zur <strong>verteilten Verarbeitung</strong> großer Datenmengen</p>
+<p><span class="fragment">Geistige Nachfolger von <strong>Hadoop</strong>, nur schneller und besser</span></p>
+<p><span class="fragment">Freie Software, Apache Software Foundation</span></p>
+<p><span class="fragment"><strong>JVM</strong>/Python</span></p>
+</div><div class="column">
+<p><img data-src="assets/spark-logo-hd.png"></p>
+<p><img data-src="assets/flink-header-logo.svg" style="width:70.0%"></p>
 </div>
-<ul>
-<li class="fragment">Datenintegration: Daten in der richtigen Form an die richtigen Orte bringen</li>
-<li class="fragment">lesen/transformieren/joinen/filtern/aggregieren/Modelle trainieren/evaluieren/schreiben</li>
-<li class="fragment">Ausgabe sind <em>abgeleitete</em> Datensätze: Suchindizes, Empfehlungen, aggregierte Metriken, materialisierte Views uvvm.</li>
-</ul>
+</div>
 <aside class="notes">
+<p>Will nicht zu weit vorgreifen – Spark ist Vorlesungsthema – aber ich dippe mal den dicken Zeh in die Sparktasse</p>
 <p>Frameworks zur verteilten Verarbeitung großer Mengen von Daten</p>
+<p>Beide ähnliches Prinzip wie Hadoop, aber verzichten auf das Serialisieren von Zwischenergebnissen - daher häufig schneller</p>
 <style type="text/css">
         span.MJX_Assistive_MathML {
           position:absolute!important;
@@ -448,24 +425,70 @@ Patrick Haas
           display:block!important;
       }</style></aside>
 </section>
-<section id="spark-streaming-flink-1" class="slide level2 center">
-<h2>Spark (Streaming) &amp; Flink</h2>
+<section id="section-1" class="slide level2">
+<h2></h2>
+<div class="columns">
+<div class="column" style="width:50%;">
+<p><img data-src="assets/streaming-arch.png"></p>
+</div><div class="column" style="width:50%;">
+<p><img data-src="assets/flink-home-graphic.png"></p>
+</div>
+</div>
+<p><strong>Ursprungsdaten</strong> aus unterschiedlichen Quellen in <strong>abgeleitete Daten</strong> überführen<sup>1</sup></p>
+<p><span class="fragment">durch Transformationen, Joins, Filterung, Aggregation, ML-Modelle, uvvm.</span></p>
+<p><span class="fragment">auf <strong>einzelnen Maschinen</strong> oder auf <strong>Clustern</strong> (mehr oder weniger agnostisch)</span></p>
+<aside class="notes">
+
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+<aside><ol class="aside-footnotes"><li id="fn1"><p>Suchindizes, Empfehlungen, aggregierte Metriken, materialisierte Views uvvm.</p></li></ol></aside></section>
+<section id="section-2" class="slide level2">
+<h2></h2>
+<div class="r-fit-text">
+<p><strong>Datenintegration</strong>:</p>
+<p>Daten in der</p>
+<p><em>richtigen Form</em> an die</p>
+<p><em>richtigen Orte</em> bringen.</p>
+</div>
+<aside class="notes">
+<p>Im ganzen Zusammenhang: Datenintegration. Definition bei <span class="citation" data-cites="Kleppmann_DesigningDataIntensive_2017">Kleppmann (<a href="" role="doc-biblioref" onclick="return false;">2017</a>)</span>.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="dataflow-computing" class="slide level2">
+<h2>Dataflow Computing</h2>
 <div class="columns">
 <div class="column">
 <ul>
-<li class="fragment">freie Software, Apache Software Foundation</li>
-<li class="fragment">API: JVM/Python</li>
-<li class="fragment">Anders als Hadoop: keine Zwischenergebnisse auf Platte</li>
-<li class="fragment">Abstraktion: Fluss von Daten durch mehrere Verarbeitungsstufen</li>
+<li class="fragment">Daten fließen durch mehrere Verarbeitungsstufen</li>
 </ul>
 </div><div class="column fragment">
 <div class="cell" data-reveal="true">
 <div class="cell-output-display">
 <div>
 <p>
-</p><pre class="mermaid mermaid-js" data-tooltip-selector="#mermaid-tooltip-1">flowchart TD
-    id1(flatMap) --&gt; id6(filter) --&gt; id2(map) --&gt; id3(reduceByKey)
-    id1 --&gt; id4(filter) --&gt; id99(flatMap) --&gt; id5(map) --&gt; id3
+</p><pre class="mermaid mermaid-js" data-tooltip-selector="#mermaid-tooltip-1">%%{init: {'theme': 'default', 'themeVariables': { 'fontFamily': 'Ubuntu Mono'}}}%%
+flowchart TD
+    id198((Quelle)) --&gt; id1(flatMap) --&gt; id6(filter) --&gt; id3(reduceByKey) --&gt; id199((Senke))
+    id1 --&gt; id4(filter) --&gt; id99(flatMap) --&gt; id3
 </pre>
 <div id="mermaid-tooltip-1" class="mermaidTooltip">
 
@@ -477,31 +500,61 @@ Patrick Haas
 </div>
 </div>
 </section>
-<section id="warum-spark-flink" class="slide level2 center">
-<h2>Warum Spark &amp; Flink?</h2>
+<section id="dataflow-computing-1" class="slide level2">
+<h2>Dataflow Computing</h2>
+<p>Daten fließen durch mehrere Verarbeitungsstufen</p>
+<div class="sourceCode" id="cb1" data-code-line-numbers="1-2|3-4|5-6|7-8|1-8"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1"></a><span class="co"># read data from text file</span></span>
+<span id="cb1-2"><a href="#cb1-2"></a>json_file <span class="op">=</span> sc.textFile(<span class="vs">r"ytmetadata.noid.json"</span>)</span>
+<span id="cb1-3"><a href="#cb1-3"></a><span class="co"># split each line into words</span></span>
+<span id="cb1-4"><a href="#cb1-4"></a>words <span class="op">=</span> json_file.flatMap(<span class="kw">lambda</span> line: line.split(<span class="st">" "</span>))</span>
+<span id="cb1-5"><a href="#cb1-5"></a><span class="co"># count the occurrence of each word</span></span>
+<span id="cb1-6"><a href="#cb1-6"></a>counts <span class="op">=</span> words.<span class="bu">map</span>(<span class="kw">lambda</span> word: (word, <span class="dv">1</span>)).reduceByKey(<span class="kw">lambda</span> a, b: a <span class="op">+</span> b)</span>
+<span id="cb1-7"><a href="#cb1-7"></a><span class="co"># save the counts to output</span></span>
+<span id="cb1-8"><a href="#cb1-8"></a>counts.saveAsTextFile(<span class="st">"wordcount"</span>)</span></code><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="fragment">
+<p>Operationen als Knoten und Datenabhängigkeiten als Kanten eines Graphen</p>
+<div class="cell" data-reveal="true">
+<div class="cell-output-display">
+<div>
+<p>
+</p><pre class="mermaid mermaid-js" data-tooltip-selector="#mermaid-tooltip-2">%%{init: {'theme': 'default', 'themeVariables': { 'fontFamily': 'Ubuntu Mono'}}}%%
+graph LR;
+    id1[textFile] --&gt; id2("flatMap(split)") --&gt; id4("map(tuple)") --&gt; id5("reduceByKey(+)") --&gt; id6[saveAsTextFile];
+</pre>
+<div id="mermaid-tooltip-2" class="mermaidTooltip">
+
+</div>
+<p></p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="section-3" class="slide level2">
+<h2></h2>
+<p>Änderung in Quelldaten → Änderung in abgeleiteten Daten</p>
+<p>Zwei Fragen:</p>
 <ul>
-<li class="fragment">Datenintegration: Daten in der richtigen Form an die richtigen Stellen bringen</li>
-<li class="fragment">lesen/transformieren/joinen/filtern/aggregieren/Modelle trainieren/evaluieren/schreiben</li>
-<li class="fragment">Ausgabe sind <em>abgeleitete</em> Datensätze: Suchindizes, Empfehlungen, aggregierte Metriken, materialisierte Views uvvm.</li>
+<li class="fragment">Wie schnell soll die Änderung “ankommen”?</li>
+<li class="fragment">Kenne ich vorab die Größe der Ursprungsdaten?</li>
 </ul>
 </section>
-<section id="abgrenzung" class="slide level2 center">
-<h2>Abgrenzung</h2>
+<section id="section-4" class="slide level2">
+<h2></h2>
 <div class="columns">
-<div class="column fragment">
-<!-- -->
+<div class="column">
 <h3 id="batch-processing">Batch Processing</h3>
-<p>Analyse <em>beschränkter</em> Datenmengen von <em>bekannter, endlicher</em> Größe</p>
-<p>Neue abgeleitete Ansichten können große Mengen historischer Daten erneut verarbeiten</p>
+<p><strong>Beschränkte</strong> Datenmengen, <strong>bekannte, endliche</strong> Größe</p>
+<p>Neue abgeleitete Daten können aus historischen Daten erneut erzeugt werden</p>
 </div><div class="column fragment">
 <!-- -->
 <h3 id="stream-processing">Stream Processing</h3>
-<p>Analyse <em>potenziell unbeschränkter</em> Datenmengen, die <em>inkrementell</em> eintreffen</p>
+<p><strong>Unbeschränkte</strong> Datenmengen, <strong>inkrementell</strong> eintreffend</p>
 <p>Abgeleitete Ansichten reagieren mit geringer Verzögerung auf Veränderungen im Eingang</p>
 </div>
 </div>
 <aside class="notes">
-<p><span class="citation" data-cites="Kleppmann_DesigningDataIntensive_2017">Kleppmann (<a href="#/literatur" role="doc-biblioref" onclick="">2017</a>)</span>, Kap. 10, 11, 12 - Fraud detection systems need to determine if the usage patterns of a credit card have unexpectedly changed, and block the card if it is likely to have been stolen. - Trading systems need to examine price changes in a financial market and execute trades according to specified rules. - Manufacturing systems need to monitor the status of machines in a factory, and quickly identify the problem if there is a malfunction. - Military and intelligence systems need to track the activities of a potential aggressor, and raise the alarm if there are signs of an attack.</p>
+<p><span class="citation" data-cites="Kleppmann_DesigningDataIntensive_2017">Kleppmann (<a href="" role="doc-biblioref" onclick="return false;">2017</a>)</span>, Kap. 10, 11, 12 - Fraud detection systems need to determine if the usage patterns of a credit card have unexpectedly changed, and block the card if it is likely to have been stolen. - Trading systems need to examine price changes in a financial market and execute trades according to specified rules. - Manufacturing systems need to monitor the status of machines in a factory, and quickly identify the problem if there is a malfunction. - Military and intelligence systems need to track the activities of a potential aggressor, and raise the alarm if there are signs of an attack.</p>
 <style type="text/css">
         span.MJX_Assistive_MathML {
           position:absolute!important;
@@ -514,166 +567,13 @@ Patrick Haas
           display:block!important;
       }</style></aside>
 </section>
-<section id="stream-processing-1" class="slide level2 center">
-<h2>Stream Processing</h2>
-<ul>
-<li class="fragment">Abstraktion: Operationen als Knoten und Datenabhängigkeiten als Kanten eines Graphen</li>
-<li class="fragment">Dataflow Computing oder reaktive Programmierung</li>
-<li class="fragment"><code>f(x, y, z) = x * y + z</code></li>
-</ul>
-<div class="cell" data-reveal="true" data-mermaid-theme="dark">
-<div class="cell-output-display">
-<div>
-<p>
-</p><pre class="mermaid mermaid-js" data-tooltip-selector="#mermaid-tooltip-2">graph LR;
-    id1[x] --&gt; id2[*];
-    id3[y] --&gt; id2; id2 --&gt; id4(+)
-    id5[z] --&gt; id4
-    id4 --&gt; id6[out]
-</pre>
-<div id="mermaid-tooltip-2" class="mermaidTooltip">
-
-</div>
-<p></p>
-</div>
-</div>
-</div>
-
-<aside><div>
-<p>mehr Details: <span class="citation" data-cites="Schwarzkopf_RemarkableUtility_2020">Schwarzkopf (<a href="#/literatur" role="doc-biblioref" onclick="">2020</a>)</span></p>
-</div></aside></section>
-<section id="stream-processing-2" class="slide level2 center">
-<h2>Stream Processing</h2>
-<div class="sourceCode" id="cb1" data-code-line-numbers="1-2|3-4|5-6|7-8"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1"></a><span class="co"># read data from text file</span></span>
-<span id="cb1-2"><a href="#cb1-2"></a>json_file <span class="op">=</span> sc.textFile(<span class="vs">r"ytmetadata.noid.json"</span>)</span>
-<span id="cb1-3"><a href="#cb1-3"></a><span class="co"># split each line into words</span></span>
-<span id="cb1-4"><a href="#cb1-4"></a>words <span class="op">=</span> json_file.flatMap(<span class="kw">lambda</span> line: line.split(<span class="st">" "</span>))</span>
-<span id="cb1-5"><a href="#cb1-5"></a><span class="co"># count the occurrence of each word</span></span>
-<span id="cb1-6"><a href="#cb1-6"></a>counts <span class="op">=</span> words.<span class="bu">map</span>(<span class="kw">lambda</span> word: (word, <span class="dv">1</span>)).reduceByKey(<span class="kw">lambda</span> a, b: a <span class="op">+</span> b)</span>
-<span id="cb1-7"><a href="#cb1-7"></a><span class="co"># save the counts to output</span></span>
-<span id="cb1-8"><a href="#cb1-8"></a>counts.saveAsTextFile(<span class="st">"wordcount"</span>)</span></code><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell" data-reveal="true" data-darkmode="true">
-<div class="cell-output-display">
-<div>
-<p>
-</p><pre class="mermaid mermaid-js" data-tooltip-selector="#mermaid-tooltip-3">graph LR;
-    id1[textFile] --&gt; id2("flatMap(split)") --&gt; id4("map(tuple)") --&gt; id5("reduceByKey(+)") --&gt; id6[saveAsTextFile];
-</pre>
-<div id="mermaid-tooltip-3" class="mermaidTooltip">
-
-</div>
-<p></p>
-</div>
-</div>
-</div>
-</section>
-<section id="stream-processing-3" class="slide level2 center">
-<h2>Stream Processing</h2>
-<div class="sourceCode" id="cb2" data-code-line-numbers="1-2|3-4|5-6|7-8"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1"></a><span class="co"># read data from text file</span></span>
-<span id="cb2-2"><a href="#cb2-2"></a>json_file <span class="op">=</span> sc.textFile(<span class="vs">r"ytmetadata.noid.json"</span>)</span>
-<span id="cb2-3"><a href="#cb2-3"></a><span class="co"># split each line into words</span></span>
-<span id="cb2-4"><a href="#cb2-4"></a>words <span class="op">=</span> json_file.flatMap(<span class="kw">lambda</span> line: line.split(<span class="st">" "</span>))</span>
-<span id="cb2-5"><a href="#cb2-5"></a><span class="co"># count the occurrence of each word</span></span>
-<span id="cb2-6"><a href="#cb2-6"></a>counts <span class="op">=</span> words.<span class="bu">map</span>(<span class="kw">lambda</span> word: (word, <span class="dv">1</span>)).reduceByKey(<span class="kw">lambda</span> a, b: a <span class="op">+</span> b)</span>
-<span id="cb2-7"><a href="#cb2-7"></a><span class="co"># save the counts to output</span></span>
-<span id="cb2-8"><a href="#cb2-8"></a>counts.saveAsTextFile(<span class="st">"wordcount"</span>)</span></code><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell" data-reveal="true" data-darkmode="true">
-<div class="cell-output-display">
-<div>
-<p>
-</p><pre class="mermaid mermaid-js" data-tooltip-selector="#mermaid-tooltip-4">graph LR;
-    id1[textFile] --&gt; id2("flatMap(split)") --&gt; id4("map(tuple)") --&gt; id5("reduceByKey(+)") --&gt; id6[saveAsTextFile];
-</pre>
-<div id="mermaid-tooltip-4" class="mermaidTooltip">
-
-</div>
-<p></p>
-</div>
-</div>
-</div>
-</section>
-<section id="stream-processing-ii" class="slide level2 center">
-<h2>Stream Processing II</h2>
-<div class="sourceCode" id="cb3"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1"></a><span class="co"># read data from text file</span></span>
-<span id="cb3-2"><a href="#cb3-2"></a>json_file <span class="op">=</span> sc.textFile(<span class="vs">r"ytmetadata.noid.json"</span>)</span>
-<span id="cb3-3"><a href="#cb3-3"></a><span class="co"># split each line into words</span></span>
-<span id="cb3-4"><a href="#cb3-4"></a>words <span class="op">=</span> json_file.flatMap(<span class="kw">lambda</span> line: line.split(<span class="st">" "</span>))</span>
-<span id="cb3-5"><a href="#cb3-5"></a><span class="co"># count the occurrence of each word</span></span>
-<span id="cb3-6"><a href="#cb3-6"></a>counts <span class="op">=</span> words.<span class="bu">map</span>(<span class="kw">lambda</span> word: (word, <span class="dv">1</span>)).reduceByKey(<span class="kw">lambda</span> a, b: a <span class="op">+</span> b)</span>
-<span id="cb3-7"><a href="#cb3-7"></a><span class="co"># save the counts to output</span></span>
-<span id="cb3-8"><a href="#cb3-8"></a>counts.saveAsTextFile(<span class="st">"wordcount"</span>)</span></code><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell">
-<div class="cell-output-display">
-<div>
-<p>
-<svg width="960" height="480" viewbox="36.00 36.00 452.97 317.00" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" style=" display: block; margin: auto auto auto auto">
-<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(40 313)">
-<title>
-G
-</title>
-<polygon fill="transparent" stroke="transparent" points="-4,4 -4,-277 412.97,-277 412.97,4 -4,4"></polygon> <g id="clust1" class="cluster">
-<title>
-cluster_storage
-</title>
-<path fill="#000000" fill-opacity="0.070588" stroke="black" stroke-dasharray="1,5" d="M154.32,-55C154.32,-55 272.97,-55 272.97,-55 278.97,-55 284.97,-61 284.97,-67 284.97,-67 284.97,-253 284.97,-253 284.97,-259 278.97,-265 272.97,-265 272.97,-265 154.32,-265 154.32,-265 148.32,-265 142.32,-259 142.32,-253 142.32,-253 142.32,-67 142.32,-67 142.32,-61 148.32,-55 154.32,-55"></path> </g> <g id="clust2" class="cluster">
-<title>
-cluster_redshift
-</title>
-<path fill="#000000" fill-opacity="0.070588" stroke="black" stroke-dasharray="1,5" d="M179.65,-147C179.65,-147 247.65,-147 247.65,-147 253.65,-147 259.65,-153 259.65,-159 259.65,-159 259.65,-234 259.65,-234 259.65,-240 253.65,-246 247.65,-246 247.65,-246 179.65,-246 179.65,-246 173.65,-246 167.65,-240 167.65,-234 167.65,-234 167.65,-159 167.65,-159 167.65,-153 173.65,-147 179.65,-147"></path> <text text-anchor="middle" x="213.65" y="-229.4" font-family="monoidregular" font-size="14.00">Redshift</text> </g> <g id="clust3" class="cluster">
-<title>
-cluster_S3
-</title>
-<path fill="#000000" fill-opacity="0.070588" stroke="black" stroke-dasharray="1,5" d="M342.97,-75C342.97,-75 388.97,-75 388.97,-75 394.97,-75 400.97,-81 400.97,-87 400.97,-87 400.97,-140 400.97,-140 400.97,-146 394.97,-152 388.97,-152 388.97,-152 342.97,-152 342.97,-152 336.97,-152 330.97,-146 330.97,-140 330.97,-140 330.97,-87 330.97,-87 330.97,-81 336.97,-75 342.97,-75"></path> <text text-anchor="middle" x="365.97" y="-135.4" font-family="monoidregular" font-size="14.00">S3</text> </g> <!-- air --> <g id="node1" class="node">
-<title>
-air
-</title>
-<path fill="none" stroke="black" d="M76.49,-120.3C76.49,-120.3 11.84,-120.3 11.84,-120.3 5.84,-120.3 -0.16,-114.3 -0.16,-108.3 -0.16,-108.3 -0.16,-93.7 -0.16,-93.7 -0.16,-87.7 5.84,-81.7 11.84,-81.7 11.84,-81.7 76.49,-81.7 76.49,-81.7 82.49,-81.7 88.49,-87.7 88.49,-93.7 88.49,-93.7 88.49,-108.3 88.49,-108.3 88.49,-114.3 82.49,-120.3 76.49,-120.3"></path> <text text-anchor="middle" x="44.16" y="-96.8" font-family="monoidregular" font-size="14.00">Airflow</text> </g> <!-- red --> <g id="node2" class="node">
-<title>
-red
-</title>
-<polygon fill="none" stroke="black" points="240.65,-202 186.65,-202 186.65,-166 240.65,-166 240.65,-202"></polygon> </g> <!-- air&#45;&gt;red --> <g id="edge2" class="edge">
-<title>
-air-&gt;red
-</title>
-<path fill="none" stroke="black" d="M71.74,-120.32C90.7,-133.42 117.18,-150.41 142.32,-162 147.32,-164.3 152.62,-166.45 157.98,-168.43"></path> <polygon fill="black" stroke="black" points="157.05,-171.82 167.65,-171.82 159.37,-165.21 157.05,-171.82"></polygon> </g> <!-- dat --> <g id="node3" class="node">
-<title>
-dat
-</title>
-<path fill="#00ff00" fill-opacity="0.313725" stroke="black" d="M265.79,-122.97C265.79,-125.66 242.42,-127.85 213.65,-127.85 184.87,-127.85 161.5,-125.66 161.5,-122.97 161.5,-122.97 161.5,-79.03 161.5,-79.03 161.5,-76.34 184.87,-74.15 213.65,-74.15 242.42,-74.15 265.79,-76.34 265.79,-79.03 265.79,-79.03 265.79,-122.97 265.79,-122.97"></path> <path fill="none" stroke="black" d="M265.79,-122.97C265.79,-120.28 242.42,-118.09 213.65,-118.09 184.87,-118.09 161.5,-120.28 161.5,-122.97"></path> <text text-anchor="middle" x="213.65" y="-96.8" font-family="monoidregular" font-size="14.00">Databricks</text> </g> <!-- air&#45;&gt;dat --> <g id="edge3" class="edge">
-<title>
-air-&gt;dat
-</title>
-<path fill="none" stroke="black" d="M88.73,-101C102.03,-101 117.09,-101 132.03,-101"></path> <polygon fill="black" stroke="black" points="132.33,-104.5 142.33,-101 132.33,-97.5 132.33,-104.5"></polygon> </g> <!-- mail --> <g id="node5" class="node">
-<title>
-mail
-</title>
-</g> <!-- air&#45;&gt;mail --> <g id="edge1" class="edge">
-<title>
-air-&gt;mail
-</title>
-<path fill="none" stroke="black" d="M81.91,-81.69C100.02,-72.27 122.24,-60.88 142.32,-51 153.67,-45.42 166.14,-39.5 177.38,-34.24"></path> <polygon fill="black" stroke="black" points="178.9,-37.39 186.49,-30 175.95,-31.05 178.9,-37.39"></polygon> </g> <!-- S3 --> <g id="node4" class="node">
-<title>
-S3
-</title>
-<polygon fill="none" stroke="black" points="392.97,-119 338.97,-119 338.97,-83 392.97,-83 392.97,-119"></polygon> </g> <!-- dat&#45;&gt;S3 --> <g id="edge4" class="edge">
-<title>
-dat-&gt;S3
-</title>
-<path fill="none" stroke="black" d="M265.96,-101C286.53,-101 309.76,-101 328.55,-101"></path> <polygon fill="black" stroke="black" points="320.97,-104.5 330.97,-101 320.97,-97.5 320.97,-104.5"></polygon> </g> </g>
-</svg>
-</p>
-</div>
-</div>
-</div>
-</section>
-<section id="spark-streaming" class="slide level2 center">
+<section id="spark-streaming" class="slide level2">
 <h2>Spark Streaming</h2>
-<ul>
-<li class="fragment">Batchframework, das Streamverarbeitung asymptotisch annähert</li>
-<li class="fragment">Microbatching <img data-src="assets/streaming-flow.png" style="width:60.0%"></li>
-<li class="fragment">Jeder Microbatch kann wie jeder andere Spark-Job nach Ausfall neu gestartet werden</li>
-<li class="fragment">Exactly-once-Semantik</li>
-<li class="fragment">Kompromiss: Overhead oder Latenz</li>
+
+<img data-src="assets/streaming-flow.png" style="width:60.0%" class="r-stretch"><ul>
+<li class="fragment">Microbatching – “Streams sind viele kleine Batches”</li>
+<li class="fragment">Jeder Microbatch kann nach Ausfall neu gestartet werden</li>
+<li class="fragment">Kompromiss: Overhead vs.&nbsp;Latenz</li>
 </ul>
 <aside class="notes">
 <p>Microbatching: Typische Batchgröße ist ca. 1 Sekunde. Kürzere Batchzeit - mehr Scheduling und Koordination Längere Batchzeit - höhere Latenzzeit (HFT: wenn ich die Rechner schon möglichst nah an die Börse stelle, will ich evtl. nicht unbedingt auf Spark warten müssen)</p>
@@ -689,29 +589,18 @@ dat-&gt;S3
           display:block!important;
       }</style></aside>
 </section>
-<section id="flink" class="slide level2 center">
+<section id="flink" class="slide level2">
 <h2>Flink</h2>
 <ul>
-<li class="fragment">Streamframework, das sich als Batchframework verkleiden kann</li>
+<li class="fragment">Streamframework – aber jeder Batch ist streambar</li>
 <li class="fragment">Fehlertoleranz via Checkpointing: Regelmäßige Barrieren im Stream, ab denen nach Ausfall wieder aufgesetzt werden kann</li>
 <li class="fragment">Die Quelle muss das unterstützen (bspw. Kafka)</li>
-<li class="fragment">Exactly-once-Semantik</li>
 </ul>
-</section>
-<section id="literatur" class="slide level2 smaller scrollable">
-<h2>Literatur</h2>
 <div class="footer footer-default">
-<p><a href="https://git.radaubox.de/patmanteau/flink-vs-spark" class="uri">https://git.radaubox.de/patmanteau/flink-vs-spark</a></p>
-</div>
-<div id="refs" class="references csl-bib-body" role="doc-bibliography">
-<div id="ref-Kleppmann_DesigningDataIntensive_2017" class="csl-entry" role="doc-biblioentry">
-<div class="csl-block">KLEPPMANN, Martin, 2017. <em>Designing data-intensive applications</em>. Boston, MA, US: O’Reilly. ISBN&nbsp;978-1-4493-7332-0</div><div class="csl-right-inline">QA76.76.A65 K612 2017</div>
-</div>
-<div id="ref-Schwarzkopf_RemarkableUtility_2020" class="csl-entry" role="doc-biblioentry">
-<div class="csl-block">SCHWARZKOPF, Malte, 2020. The Remarkable Utility of Dataflow Computing. [online]. 3 Juli 2020. [Zugriff am:&nbsp;20&nbsp;Oktober&nbsp;2022]. Verfügbar unter: <a href="https://www.sigops.org/2020/the-remarkable-utility-of-dataflow-computing/">https://www.sigops.org/2020/the-remarkable-utility-of-dataflow-computing/</a></div>
-</div>
+
 </div>
 </section>
+
     </div>
   </div>
 
@@ -793,7 +682,7 @@ dat-&gt;S3
         disableLayout: false,
 
         // Vertical centering of slides
-        center: true,
+        center: false,
 
         // Enables touch navigation on devices with touch input
         touch: true,

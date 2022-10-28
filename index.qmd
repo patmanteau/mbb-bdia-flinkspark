@@ -1,84 +1,169 @@
 ---
 title: "Spark Streaming & Flink"
-date: 2022-10-29
-date-format: iso
-author: Patrick Haas
 bibliography: bib.yaml
 csl: iso690-author-date-de.csl
 subtitle: ""
 lang: de-DE
-footer: <https://git.radaubox.de/patmanteau/flink-vs-spark>
+suppress-bibliography: true
 format:
   revealjs:
-    center: true
+    theme: [default, "patmanteau.scss"]
     slide-number: true
     incremental: true
     progress: true
     navigation-mode: linear
 ---
 
-## Spark (Streaming) & Flink
+##
 
-::: {.r-stack fig-align="center"}
-![](assets/streaming-arch.png){width="50%"}
+::: {.columns}
 
-![](assets/flink-header-logo.png){.fragment width="50%"}
-:::
+:::: {.column width="50%"}
 
-- Datenintegration: Daten in der richtigen Form an die richtigen Orte bringen
-- lesen/transformieren/joinen/filtern/aggregieren/Modelle trainieren/evaluieren/schreiben
-- Ausgabe sind _abgeleitete_ Datensätze: Suchindizes, Empfehlungen, aggregierte Metriken, materialisierte Views uvvm.
+Frameworks zur **verteilten Verarbeitung** großer Datenmengen
 
-:::: {.notes}
-Frameworks zur verteilten Verarbeitung großer Mengen von Daten
+[Geistige Nachfolger von **Hadoop**, nur schneller und besser]{.fragment}
+
+[Freie Software, Apache Software Foundation]{.fragment}
+
+[**JVM**/Python]{.fragment}
+
 ::::
 
-## Spark (Streaming) & Flink
+
+:::: {.column}
+
+![](assets/spark-logo-hd.png)
+
+![](assets/flink-header-logo.svg){width="70%"}
+
+::::
+
+:::
+
+:::: {.notes}
+Will nicht zu weit vorgreifen -- Spark ist Vorlesungsthema -- aber ich dippe mal den dicken Zeh in die Sparktasse
+
+Frameworks zur verteilten Verarbeitung großer Mengen von Daten
+
+Beide ähnliches Prinzip wie Hadoop, aber verzichten auf das Serialisieren von Zwischenergebnissen - daher häufig schneller
+::::
+
+## 
+
+::: {.columns}
+
+:::: {.column width="50%"}
+![](assets/streaming-arch.png)
+::::
+
+:::: {.column width="50%"}
+
+![](assets/flink-home-graphic.png)
+
+::::
+:::
+
+**Ursprungsdaten** aus unterschiedlichen Quellen in **abgeleitete Daten** überführen^[Suchindizes, Empfehlungen, aggregierte Metriken, materialisierte Views uvvm.]
+
+[durch Transformationen, Joins, Filterung, Aggregation, ML-Modelle, uvvm.]{.fragment}
+
+[auf **einzelnen Maschinen** oder auf **Clustern** (mehr oder weniger agnostisch)]{.fragment}
+
+
+:::: {.notes}
+
+::::
+
+## 
+
+::: {.r-fit-text}
+**Datenintegration**:
+
+Daten in der
+
+_richtigen Form_ an die
+
+_richtigen Orte_ bringen.
+:::
+
+:::: {.notes}
+Im ganzen Zusammenhang: Datenintegration. Definition bei @Kleppmann_DesigningDataIntensive_2017.
+::::
+
+## Dataflow Computing 
 
 ::::{.columns}
 :::{.column}
 
-- freie Software, Apache Software Foundation
-- API: JVM/Python
-- Anders als Hadoop: keine Zwischenergebnisse auf Platte
-- Abstraktion: Fluss von Daten durch mehrere Verarbeitungsstufen
+- Daten fließen durch mehrere Verarbeitungsstufen
 
 :::
 
 :::{.column .fragment}
 
 ```{mermaid}
+%%{init: {'theme': 'default', 'themeVariables': { 'fontFamily': 'Ubuntu Mono'}}}%%
 flowchart TD
-    id1(flatMap) --> id6(filter) --> id2(map) --> id3(reduceByKey)
-    id1 --> id4(filter) --> id99(flatMap) --> id5(map) --> id3
+    id198((Quelle)) --> id1(flatMap) --> id6(filter) --> id3(reduceByKey) --> id199((Senke))
+    id1 --> id4(filter) --> id99(flatMap) --> id3
 ```
 
 :::
 ::::
 
-## Warum Spark & Flink?
+## Dataflow Computing
 
-- Datenintegration: Daten in der richtigen Form an die richtigen Stellen bringen
-- lesen/transformieren/joinen/filtern/aggregieren/Modelle trainieren/evaluieren/schreiben
-- Ausgabe sind _abgeleitete_ Datensätze: Suchindizes, Empfehlungen, aggregierte Metriken, materialisierte Views uvvm.
+Daten fließen durch mehrere Verarbeitungsstufen
 
-## Abgrenzung
+```{.python code-line-numbers="1-2|3-4|5-6|7-8|1-8"}
+# read data from text file
+json_file = sc.textFile(r"ytmetadata.noid.json")
+# split each line into words
+words = json_file.flatMap(lambda line: line.split(" "))
+# count the occurrence of each word
+counts = words.map(lambda word: (word, 1)).reduceByKey(lambda a, b: a + b)
+# save the counts to output
+counts.saveAsTextFile("wordcount")
+```
+
+
+::: {.fragment}
+Operationen als Knoten und Datenabhängigkeiten als Kanten eines Graphen
+
+```{mermaid .fragment}
+%%{init: {'theme': 'default', 'themeVariables': { 'fontFamily': 'Ubuntu Mono'}}}%%
+graph LR;
+    id1[textFile] --> id2("flatMap(split)") --> id4("map(tuple)") --> id5("reduceByKey(+)") --> id6[saveAsTextFile];
+```
+:::
+
+##
+
+Änderung in Quelldaten → Änderung in abgeleiteten Daten
+
+Zwei Fragen:
+
+- Wie schnell soll die Änderung "ankommen"?
+- Kenne ich vorab die Größe der Ursprungsdaten?
+
+##  
 
 ::::{.columns}
-:::{.column .fragment}
+:::{.column}
 
 ### Batch Processing
 
-Analyse _beschränkter_ Datenmengen von _bekannter, endlicher_ Größe
+**Beschränkte** Datenmengen, **bekannte, endliche** Größe
 
-Neue abgeleitete Ansichten können große Mengen historischer Daten erneut verarbeiten
+Neue abgeleitete Daten können aus historischen Daten erneut erzeugt werden
 
 :::
 :::{.column .fragment}
 
 ### Stream Processing
 
-Analyse _potenziell unbeschränkter_ Datenmengen, die _inkrementell_ eintreffen
+**Unbeschränkte** Datenmengen, **inkrementell** eintreffend
 
 Abgeleitete Ansichten reagieren mit geringer Verzögerung auf Veränderungen im Eingang
 
@@ -93,159 +178,13 @@ Abgeleitete Ansichten reagieren mit geringer Verzögerung auf Veränderungen im 
 - Military and intelligence systems need to track the activities of a potential aggressor, and raise the alarm if there are signs of an attack.
 :::
 
-## Stream Processing
-
-- Abstraktion: Operationen als Knoten und Datenabhängigkeiten als Kanten eines Graphen
-- Dataflow Computing oder reaktive Programmierung
-- `f(x, y, z) = x * y + z`
-
-```{mermaid}
-%%| mermaid-theme: dark
-graph LR;
-    id1[x] --> id2[*];
-    id3[y] --> id2; id2 --> id4(+)
-    id5[z] --> id4
-    id4 --> id6[out]
-```
-
-::: {.aside}
-mehr Details: @Schwarzkopf_RemarkableUtility_2020
-:::
-
-## Stream Processing
-
-```{.python code-line-numbers="1-2|3-4|5-6|7-8"}
-# read data from text file
-json_file = sc.textFile(r"ytmetadata.noid.json")
-# split each line into words
-words = json_file.flatMap(lambda line: line.split(" "))
-# count the occurrence of each word
-counts = words.map(lambda word: (word, 1)).reduceByKey(lambda a, b: a + b)
-# save the counts to output
-counts.saveAsTextFile("wordcount")
-```
-
-```{mermaid}
-%%| darkMode: true
-graph LR;
-    id1[textFile] --> id2("flatMap(split)") --> id4("map(tuple)") --> id5("reduceByKey(+)") --> id6[saveAsTextFile];
-```
-
-
-## Stream Processing
-
-```{.python code-line-numbers="1-2|3-4|5-6|7-8"}
-# read data from text file
-json_file = sc.textFile(r"ytmetadata.noid.json")
-# split each line into words
-words = json_file.flatMap(lambda line: line.split(" "))
-# count the occurrence of each word
-counts = words.map(lambda word: (word, 1)).reduceByKey(lambda a, b: a + b)
-# save the counts to output
-counts.saveAsTextFile("wordcount")
-```
-
-```{mermaid}
-%%| darkMode: true
-graph LR;
-    id1[textFile] --> id2("flatMap(split)") --> id4("map(tuple)") --> id5("reduceByKey(+)") --> id6[saveAsTextFile];
-```
-
-## Stream Processing II
-
-```python
-# read data from text file
-json_file = sc.textFile(r"ytmetadata.noid.json")
-# split each line into words
-words = json_file.flatMap(lambda line: line.split(" "))
-# count the occurrence of each word
-counts = words.map(lambda word: (word, 1)).reduceByKey(lambda a, b: a + b)
-# save the counts to output
-counts.saveAsTextFile("wordcount")
-```
-
-```{dot}
-
-digraph G {
-  margin=0.5; // either one (all) or two (hor,vert) numbers, in inches
-  bgcolor="#ffffff00" // rgba in hex format
-  rankdir=LR // other options would be RL, TB, BT
-  compound=true // this enables logical arrow heads
-  fontname="monoidregular" // should be a valid webfont
-  node [
-    // General rules for _all_ nodes
-    label="" // Default label empty
-    fontname=monoidregular // Quotes are not mandatory 
-    labelloc=c // vert. centred labels
-    margin="0.3,0.15" // side and top margin for text in nodes
-    splines=true // allows curved arrows
-    shape=rect
-    style=rounded
-    ];
-  edge [
-    minlen=2
-  ];
-  
-  air[ // if you define nodes ahead of time you can add properties
-      label="Airflow"
-      group=g  
-      // nodes in a group are aligned (direction depending on rank
-    ]
-  
-  subgraph cluster_storage { 
-    // if the id starts with cluster, it will have a box and label
-    margin=19 // subgraph inherits margin from graph, bad
-    style="filled,rounded,dotted"; // example of styles
-    fillcolor="#00000012" // transparency stacks
-    subgraph cluster_redshift {
-     // Layout for nodes with images does not match when running
-     // using the dot CLI, so wrap in a cluster
-     label="Redshift"
-     red[
-      label=""
-      // Images need to be made available to the graphviz object
-      // I have provided a few
-      image="i/aws/Amazon-Redshift.png"
-      style=""
-     ]
-    }
-    dat[label="Databricks"
-      shape="cylinder"
-      // https://graphviz.org/doc/info/shapes.html#polygon
-      style=filled,
-      fillcolor="#00ff0050"
-      group=g
-    ]
-  }
-  subgraph cluster_S3 {
-    margin="" label=S3 style="filled,rounded,dotted" 
-    fillcolor="#00000012"
-    S3[style="" image="i/aws/Amazon-Simple-Storage-Service.png"]
-  } 
-  // could be a oneliner
-  mail[
-    image="i/fa/solid/envelope.png"
-    style=""
-    shape=none
-  ]
-  air -> mail
-  air -> red [lhead=cluster_redshift] 
-  // logical head of the arrow is outside the cluster
-  air -> dat [lhead=cluster_storage]
-  dat -> S3 [lhead=cluster_S3]
-}
-
-```
-
-
 ## Spark Streaming
 
-- Batchframework, das Streamverarbeitung asymptotisch annähert
-- Microbatching
 ![](assets/streaming-flow.png){width="60%"}
-- Jeder Microbatch kann wie jeder andere Spark-Job nach Ausfall neu gestartet werden
-- Exactly-once-Semantik
-- Kompromiss: Overhead oder Latenz
+
+- Microbatching -- "Streams sind viele kleine Batches"
+- Jeder Microbatch kann nach Ausfall neu gestartet werden
+- Kompromiss: Overhead vs. Latenz
 
 
 ::::: {.notes}
@@ -257,10 +196,7 @@ will ich evtl. nicht unbedingt auf Spark warten müssen)
 
 ## Flink
 
-- Streamframework, das sich als Batchframework verkleiden kann
+- Streamframework -- aber jeder Batch ist streambar
 - Fehlertoleranz via Checkpointing: Regelmäßige Barrieren im Stream, ab denen nach Ausfall wieder aufgesetzt werden kann
 - Die Quelle muss das unterstützen (bspw. Kafka)
-- Exactly-once-Semantik
-
-## Literatur
 
