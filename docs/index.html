@@ -7,7 +7,7 @@
 <link href="index_files/libs/quarto-html/tippy.css" rel="stylesheet">
 <link href="index_files/libs/quarto-html/quarto-html.min.css" rel="stylesheet" data-mode="light">
 <link href="index_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
-  <meta name="generator" content="quarto-1.2.242">
+  <meta name="generator" content="quarto-1.1.251">
 
   <title>Spark Streaming &amp; Flink</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -389,13 +389,10 @@
   <div class="reveal">
     <div class="slides">
 
-<section id="title-slide" class="quarto-title-block center">
+<section id="title-slide" class="center">
   <h1 class="title">Spark Streaming &amp; Flink</h1>
-
-<div class="quarto-title-authors">
-</div>
-
 </section>
+
 <section id="section" class="slide level2">
 <h2></h2>
 <div class="columns">
@@ -475,33 +472,6 @@
 </section>
 <section id="dataflow-computing" class="slide level2">
 <h2>Dataflow Computing</h2>
-<div class="columns">
-<div class="column">
-<ul>
-<li class="fragment">Daten fließen durch mehrere Verarbeitungsstufen</li>
-</ul>
-</div><div class="column fragment">
-<div class="cell" data-reveal="true">
-<div class="cell-output-display">
-<div>
-<p>
-</p><pre class="mermaid mermaid-js" data-tooltip-selector="#mermaid-tooltip-1">%%{init: {'theme': 'default', 'themeVariables': { 'fontFamily': 'Ubuntu Mono'}}}%%
-flowchart TD
-    id198((Quelle)) --&gt; id1(flatMap) --&gt; id6(filter) --&gt; id3(reduceByKey) --&gt; id199((Senke))
-    id1 --&gt; id4(filter) --&gt; id99(flatMap) --&gt; id3
-</pre>
-<div id="mermaid-tooltip-1" class="mermaidTooltip">
-
-</div>
-<p></p>
-</div>
-</div>
-</div>
-</div>
-</div>
-</section>
-<section id="dataflow-computing-1" class="slide level2">
-<h2>Dataflow Computing</h2>
 <p>Daten fließen durch mehrere Verarbeitungsstufen</p>
 <div class="sourceCode" id="cb1" data-code-line-numbers="1-2|3-4|5-6|7-8|1-8"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1"></a><span class="co"># read data from text file</span></span>
 <span id="cb1-2"><a href="#cb1-2"></a>json_file <span class="op">=</span> sc.textFile(<span class="vs">r"ytmetadata.noid.json"</span>)</span>
@@ -517,11 +487,11 @@ flowchart TD
 <div class="cell-output-display">
 <div>
 <p>
-</p><pre class="mermaid mermaid-js" data-tooltip-selector="#mermaid-tooltip-2">%%{init: {'theme': 'default', 'themeVariables': { 'fontFamily': 'Ubuntu Mono'}}}%%
+</p><pre class="mermaid" data-tooltip-selector="#mermaid-tooltip-1">%%{init: {'theme': 'default', 'themeVariables': { 'fontFamily': 'Ubuntu Mono'}}}%%
 graph LR;
     id1[textFile] --&gt; id2("flatMap(split)") --&gt; id4("map(tuple)") --&gt; id5("reduceByKey(+)") --&gt; id6[saveAsTextFile];
 </pre>
-<div id="mermaid-tooltip-2" class="mermaidTooltip">
+<div id="mermaid-tooltip-1" class="mermaidTooltip">
 
 </div>
 <p></p>
@@ -850,24 +820,7 @@ graph LR;
         button.classList.add('code-copy-button-checked');
         var currentTitle = button.getAttribute("title");
         button.setAttribute("title", "Kopiert");
-        let tooltip;
-        if (window.bootstrap) {
-          button.setAttribute("data-bs-toggle", "tooltip");
-          button.setAttribute("data-bs-placement", "left");
-          button.setAttribute("data-bs-title", "Kopiert");
-          tooltip = new bootstrap.Tooltip(button, 
-            { trigger: "manual", 
-              customClass: "code-copy-button-tooltip",
-              offset: [0, -8]});
-          tooltip.show();    
-        }
         setTimeout(function() {
-          if (tooltip) {
-            tooltip.hide();
-            button.removeAttribute("data-bs-title");
-            button.removeAttribute("data-bs-toggle");
-            button.removeAttribute("data-bs-placement");
-          }
           button.setAttribute("title", currentTitle);
           button.classList.remove('code-copy-button-checked');
         }, 1000);
@@ -905,42 +858,24 @@ graph LR;
           return note.innerHTML;
         });
       }
-      const findCites = (el) => {
-        const parentEl = el.parentElement;
-        if (parentEl) {
-          const cites = parentEl.dataset.cites;
-          if (cites) {
-            return {
-              el,
-              cites: cites.split(' ')
-            };
-          } else {
-            return findCites(el.parentElement)
-          }
-        } else {
-          return undefined;
-        }
-      };
       var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
       for (var i=0; i<bibliorefs.length; i++) {
         const ref = bibliorefs[i];
-        const citeInfo = findCites(ref);
-        if (citeInfo) {
-          tippyHover(citeInfo.el, function() {
-            var popup = window.document.createElement('div');
-            citeInfo.cites.forEach(function(cite) {
-              var citeDiv = window.document.createElement('div');
-              citeDiv.classList.add('hanging-indent');
-              citeDiv.classList.add('csl-entry');
-              var biblioDiv = window.document.getElementById('ref-' + cite);
-              if (biblioDiv) {
-                citeDiv.innerHTML = biblioDiv.innerHTML;
-              }
-              popup.appendChild(citeDiv);
-            });
-            return popup.innerHTML;
+        const cites = ref.parentNode.getAttribute('data-cites').split(' ');
+        tippyHover(ref, function() {
+          var popup = window.document.createElement('div');
+          cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
           });
-        }
+          return popup.innerHTML;
+        });
       }
     });
     </script>
