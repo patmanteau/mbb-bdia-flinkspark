@@ -91,27 +91,6 @@ _richtigen Orte_ bringen.
 Im ganzen Zusammenhang: Datenintegration. Definition bei @Kleppmann_DesigningDataIntensive_2017.
 ::::
 
-## Dataflow Computing 
-
-::::{.columns}
-:::{.column}
-
-- Daten fließen durch mehrere Verarbeitungsstufen
-
-:::
-
-:::{.column .fragment}
-
-```{mermaid}
-%%{init: {'theme': 'default', 'themeVariables': { 'fontFamily': 'Ubuntu Mono'}}}%%
-flowchart TD
-    id198((Quelle)) --> id1(flatMap) --> id6(filter) --> id3(reduceByKey) --> id199((Senke))
-    id1 --> id4(filter) --> id99(flatMap) --> id3
-```
-
-:::
-::::
-
 ## Dataflow Computing
 
 Daten fließen durch mehrere Verarbeitungsstufen
