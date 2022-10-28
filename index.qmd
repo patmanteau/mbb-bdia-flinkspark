@@ -106,11 +106,10 @@ counts = words.map(lambda word: (word, 1)).reduceByKey(lambda a, b: a + b)
 counts.saveAsTextFile("wordcount")
 ```
 
-
 ::: {.fragment}
 Operationen als Knoten und Datenabhängigkeiten als Kanten eines Graphen
 
-```{mermaid .fragment}
+```{mermaid}
 %%{init: {'theme': 'default', 'themeVariables': { 'fontFamily': 'Ubuntu Mono'}}}%%
 graph LR;
     id1[textFile] --> id2("flatMap(split)") --> id4("map(tuple)") --> id5("reduceByKey(+)") --> id6[saveAsTextFile];
